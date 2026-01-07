@@ -1,110 +1,110 @@
-# Reference: Manus Context Engineering Principles
+# 参考：Manus 的上下文工程原则
 
-This skill is based on the context engineering principles from Manus, the AI agent company acquired by Meta for $2 billion in December 2025.
+本技能基于 Manus 的上下文工程原则。Manus 是一家 AI 智能体公司，据报道于 2025 年 12 月被 Meta 以 20 亿美元收购。
 
-## The 6 Manus Principles
+## Manus 的六大原则
 
-### 1. Filesystem as External Memory
+### 1. 文件系统作为外部记忆
 
-> "Markdown is my 'working memory' on disk."
+> “Markdown 是我写在磁盘上的‘工作记忆’。”
 
-**Problem:** Context windows have limits. Stuffing everything in context degrades performance and increases costs.
+**问题：** 上下文窗口有上限。把所有内容塞进上下文会降低效果并增加成本。
 
-**Solution:** Treat the filesystem as unlimited memory:
-- Store large content in files
-- Keep only paths in context
-- Agent can "look up" information when needed
-- Compression must be REVERSIBLE
+**解决：** 把文件系统当作“无限容量的记忆”：
+- 大内容写进文件
+- 上下文里只保留路径
+- 需要时智能体可以再“查阅”文件
+- 压缩必须是 **可逆的（REVERSIBLE）**
 
-### 2. Attention Manipulation Through Repetition
+### 2. 通过重复操控注意力
 
-**Problem:** After ~50 tool calls, models forget original goals ("lost in the middle" effect).
+**问题：** 大约 50 次工具调用后，模型会忘记原始目标（“中间丢失”效应）。
 
-**Solution:** Keep a `task_plan.md` file that gets RE-READ throughout execution:
+**解决：** 用一个在执行过程中会被反复阅读的 `task_plan.md`：
 ```
-Start of context: [Original goal - far away, forgotten]
-...many tool calls...
-End of context: [Recently read task_plan.md - gets ATTENTION!]
+上下文开头：[原始目标——离得远、容易忘]
+...很多次工具调用...
+上下文末尾：[刚读过的 task_plan.md —— 更容易获得注意力！]
 ```
 
-By reading the plan file before each decision, goals appear in the attention window.
+每次决策前阅读计划文件，就能把目标放回注意力窗口。
 
-### 3. Keep Failure Traces
+### 3. 保留失败轨迹
 
-> "Error recovery is one of the clearest signals of TRUE agentic behavior."
+> “错误恢复是‘真正智能体行为（agentic behavior）’最清晰的信号之一。”
 
-**Problem:** Instinct says hide errors, retry silently. This wastes tokens and loses learning.
+**问题：** 直觉会让人隐藏错误、静默重试。这既浪费 token，也丢掉学习机会。
 
-**Solution:** KEEP failed actions in the plan file:
+**解决：** 把失败动作保留在计划文件中：
 ```markdown
-## Errors Encountered
-- [2025-01-03] FileNotFoundError: config.json not found → Created default config
-- [2025-01-03] API timeout → Retried with exponential backoff, succeeded
+## 遇到的错误
+- [2025-01-03] FileNotFoundError：未找到 config.json → 创建默认 config
+- [2025-01-03] API 超时 → 使用指数退避重试后成功
 ```
 
-The model updates its internal understanding when seeing failures.
+模型在“看到失败”时会更新内部理解，从而减少重复犯错。
 
-### 4. Avoid Few-Shot Overfitting
+### 4. 避免 Few-shot 过拟合
 
-> "Uniformity breeds fragility."
+> “一致性会滋生脆弱性。”
 
-**Problem:** Repetitive action-observation pairs cause drift and hallucination.
+**问题：** 重复的“动作-观察”对会导致漂移与幻觉。
 
-**Solution:** Introduce controlled variation:
-- Vary phrasings slightly
-- Don't copy-paste patterns blindly
-- Recalibrate on repetitive tasks
+**解决：** 引入可控的变化：
+- 轻微变换措辞
+- 不要盲目复制粘贴套路
+- 对重复任务进行再校准
 
-### 5. Stable Prefixes for Cache Optimization
+### 5. 为缓存优化设置稳定前缀
 
-**Problem:** Agents are input-heavy (100:1 ratio). Every token costs money.
+**问题：** 智能体是高输入（约 100:1）系统，每个 token 都要成本。
 
-**Solution:** Structure for cache hits:
-- Put static content FIRST
-- Append-only context (never modify history)
-- Consistent serialization
+**解决：** 为命中缓存而结构化输入：
+- 静态内容放在最前面
+- 仅追加式上下文（不修改历史）
+- 序列化保持一致
 
-### 6. Append-Only Context
+### 6. 仅追加式上下文
 
-**Problem:** Modifying previous messages invalidates KV-cache.
+**问题：** 修改既有内容会让 KV-cache 失效。
 
-**Solution:** NEVER modify previous messages. Always append new information.
+**解决：** 永远不改历史消息，只追加新信息。
 
-## The Agent Loop
+## 智能体循环
 
-Manus operates in a continuous loop:
+Manus 以持续循环方式运行：
 
 ```
-1. Analyze → 2. Think → 3. Select Tool → 4. Execute → 5. Observe → 6. Iterate → 7. Deliver
+1. 分析 → 2. 思考 → 3. 选择工具 → 4. 执行 → 5. 观察 → 6. 迭代 → 7. 交付
 ```
 
-### File Operations in the Loop:
+### 循环中的文件操作
 
-| Operation | When to Use |
-|-----------|-------------|
-| `write` | New files or complete rewrites |
-| `append` | Adding sections incrementally |
-| `edit` | Updating specific parts (checkboxes, status) |
-| `read` | Reviewing before decisions |
+| 操作 | 何时使用 |
+|------|----------|
+| `write` | 新建文件或整体重写 |
+| `append` | 逐步追加新段落 |
+| `edit` | 更新局部内容（复选框、状态等） |
+| `read` | 决策前复查 |
 
-## Manus Statistics
+## Manus 关键数据
 
-| Metric | Value |
-|--------|-------|
-| Average tool calls per task | ~50 |
-| Input-to-output ratio | 100:1 |
-| Acquisition price | $2 billion |
-| Time to $100M revenue | 8 months |
+| 指标 | 数值 |
+|------|------|
+| 单任务平均工具调用次数 | ~50 |
+| 输入输出比 | 100:1 |
+| 收购价格 | 20 亿美元 |
+| 达到 1 亿美元收入所用时间 | 8 个月 |
 
-## Key Quotes
+## 关键引述
 
-> "If the model improvement is the rising tide, we want Manus to be the boat, not the piling stuck on the seafloor."
+> “如果模型进步是上涨的潮水，我们希望 Manus 是船，而不是卡在海床上的桩。”
 
-> "For complex tasks, I save notes, code, and findings to files so I can reference them as I work."
+> “面对复杂任务，我会把笔记、代码和发现保存到文件里，便于在工作过程中随时回查。”
 
-> "I used file.edit to update checkboxes in my plan as I progressed, rather than rewriting the whole file."
+> “我会在推进过程中用 file.edit 更新计划里的复选框，而不是重写整个文件。”
 
-## Source
+## 来源
 
-Based on Manus's official context engineering documentation:
+基于 Manus 的官方上下文工程文档：
 https://manus.im/de/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus

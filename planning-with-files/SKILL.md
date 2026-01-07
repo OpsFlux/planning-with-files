@@ -1,160 +1,160 @@
 ---
 name: planning-with-files
-description: Transforms workflow to use Manus-style persistent markdown files for planning, progress tracking, and knowledge storage. Use when starting complex tasks, multi-step projects, research tasks, or when the user mentions planning, organizing work, tracking progress, or wants structured output.
+description: Transforms workflow to use Manus-style persistent markdown files for planning, progress tracking, and knowledge storage. 中文：将工作流改造成使用 Manus 风格的持久化 Markdown 文件来做计划、追踪进度与沉淀知识；适用于复杂任务、多步骤项目、调研任务，或用户提到规划/组织工作/跟踪进度/需要结构化输出时。
 ---
 
-# Planning with Files
+# 用文件规划（Planning with Files）
 
-Work like Manus: Use persistent markdown files as your "working memory on disk."
+像 Manus 一样工作：用持久化的 Markdown 文件作为“写在磁盘上的工作记忆”。
 
-## Quick Start
+## 快速开始
 
-Before ANY complex task:
+在任何复杂任务开始前：
 
-1. **Create `task_plan.md`** in the working directory
-2. **Define phases** with checkboxes
-3. **Update after each phase** - mark [x] and change status
-4. **Read before deciding** - refresh goals in attention window
+1. 在工作目录中 **创建 `task_plan.md`**
+2. 用复选框 **定义阶段**
+3. 每完成一个阶段就 **更新**：勾选 `[x]` 并修改状态
+4. 做重大决策前 **先阅读计划**：把目标刷新到注意力窗口
 
-## The 3-File Pattern
+## 三文件模式
 
-For every non-trivial task, create THREE files:
+对每个非 trivial（不止一两步）的任务，都创建三个文件：
 
-| File | Purpose | When to Update |
-|------|---------|----------------|
-| `task_plan.md` | Track phases and progress | After each phase |
-| `notes.md` | Store findings and research | During research |
-| `[deliverable].md` | Final output | At completion |
+| 文件 | 作用 | 何时更新 |
+|------|------|----------|
+| `task_plan.md` | 追踪阶段与进度 | 每完成一个阶段后 |
+| `notes.md` | 存放调研与发现 | 调研过程中 |
+| `[deliverable].md` | 最终交付物 | 完成时 |
 
-## Core Workflow
+## 核心工作流
 
 ```
-Loop 1: Create task_plan.md with goal and phases
-Loop 2: Research → save to notes.md → update task_plan.md
-Loop 3: Read notes.md → create deliverable → update task_plan.md
-Loop 4: Deliver final output
+循环 1：创建 task_plan.md，写清目标与阶段
+循环 2：调研 → 写入 notes.md → 更新 task_plan.md
+循环 3：阅读 notes.md → 生成交付物 → 更新 task_plan.md
+循环 4：交付最终产物
 ```
 
-### The Loop in Detail
+### 循环细节
 
-**Before each major action:**
+**每次重大行动前：**
 ```bash
-Read task_plan.md  # Refresh goals in attention window
+Read task_plan.md  # 刷新目标到注意力窗口
 ```
 
-**After each phase:**
+**每完成一个阶段后：**
 ```bash
-Edit task_plan.md  # Mark [x], update status
+Edit task_plan.md  # 勾选 [x]，更新状态
 ```
 
-**When storing information:**
+**需要存放信息时：**
 ```bash
-Write notes.md     # Don't stuff context, store in file
+Write notes.md     # 别塞爆上下文，把内容写进文件
 ```
 
-## task_plan.md Template
+## task_plan.md 模板
 
-Create this file FIRST for any complex task:
+任何复杂任务都应先创建这个文件：
 
 ```markdown
-# Task Plan: [Brief Description]
+# 任务计划：[简要描述]
 
-## Goal
-[One sentence describing the end state]
+## 目标
+[用一句话描述最终产出/状态]
 
-## Phases
-- [ ] Phase 1: Plan and setup
-- [ ] Phase 2: Research/gather information
-- [ ] Phase 3: Execute/build
-- [ ] Phase 4: Review and deliver
+## 阶段
+- [ ] 阶段 1：计划与准备
+- [ ] 阶段 2：调研/收集信息
+- [ ] 阶段 3：执行/构建
+- [ ] 阶段 4：复查与交付
 
-## Key Questions
-1. [Question to answer]
-2. [Question to answer]
+## 关键问题
+1. [要回答的问题]
+2. [要回答的问题]
 
-## Decisions Made
-- [Decision]: [Rationale]
+## 已做决策
+- [决策]：[理由]
 
-## Errors Encountered
-- [Error]: [Resolution]
+## 遇到的错误
+- [错误]：[解决方式]
 
-## Status
-**Currently in Phase X** - [What I'm doing now]
+## 状态
+**当前处于阶段 X** —— [我正在做什么]
 ```
 
-## notes.md Template
+## notes.md 模板
 
-For research and findings:
+用于调研与发现：
 
 ```markdown
-# Notes: [Topic]
+# 笔记：[主题]
 
-## Sources
+## 来源
 
-### Source 1: [Name]
-- URL: [link]
-- Key points:
-  - [Finding]
-  - [Finding]
+### 来源 1：[名称]
+- URL：[链接]
+- 要点：
+  - [发现]
+  - [发现]
 
-## Synthesized Findings
+## 综合整理
 
-### [Category]
-- [Finding]
-- [Finding]
+### [分类]
+- [发现]
+- [发现]
 ```
 
-## Critical Rules
+## 关键规则
 
-### 1. ALWAYS Create Plan First
-Never start a complex task without `task_plan.md`. This is non-negotiable.
+### 1. 永远先建计划
+不要在没有 `task_plan.md` 的情况下开始复杂任务。这一点不容妥协。
 
-### 2. Read Before Decide
-Before any major decision, read the plan file. This keeps goals in your attention window.
+### 2. 先读再决定
+做任何重大决策前，先读计划文件，把目标拉回注意力窗口。
 
-### 3. Update After Act
-After completing any phase, immediately update the plan file:
-- Mark completed phases with [x]
-- Update the Status section
-- Log any errors encountered
+### 3. 做完就更新
+完成任意阶段后立刻更新计划文件：
+- 用 `[x]` 标记已完成阶段
+- 更新“状态”区域
+- 记录遇到的任何错误
 
-### 4. Store, Don't Stuff
-Large outputs go to files, not context. Keep only paths in working memory.
+### 4. 落盘，不塞爆
+大段内容写进文件，而不是放在上下文里。上下文里只保留路径与必要摘要。
 
-### 5. Log All Errors
-Every error goes in the "Errors Encountered" section. This builds knowledge for future tasks.
+### 5. 记录所有错误
+每个错误都写进“遇到的错误”区域，为后续任务积累可复用的经验。
 
-## When to Use This Pattern
+## 何时使用这套模式
 
-**Use 3-file pattern for:**
-- Multi-step tasks (3+ steps)
-- Research tasks
-- Building/creating something
-- Tasks spanning multiple tool calls
-- Anything requiring organization
+**适用三文件模式：**
+- 多步骤任务（3+ 步）
+- 调研类任务
+- 构建/创作类任务
+- 跨多次工具调用的任务
+- 任何需要组织与跟踪的工作
 
-**Skip for:**
-- Simple questions
-- Single-file edits
-- Quick lookups
+**不适用：**
+- 简单问答
+- 单文件小改
+- 快速查询
 
-## Anti-Patterns to Avoid
+## 应避免的反模式
 
-| Don't | Do Instead |
-|-------|------------|
-| Use TodoWrite for persistence | Create `task_plan.md` file |
-| State goals once and forget | Re-read plan before each decision |
-| Hide errors and retry | Log errors to plan file |
-| Stuff everything in context | Store large content in files |
-| Start executing immediately | Create plan file FIRST |
+| 不要做 | 改为做 |
+|--------|--------|
+| 用 TodoWrite 作为持久化 | 创建 `task_plan.md` |
+| 目标只说一次就不管 | 每次决策前重读计划 |
+| 隐藏错误并静默重试 | 在计划文件里记录错误 |
+| 把所有内容塞进上下文 | 把大内容写进文件 |
+| 一上来就执行 | 先创建计划文件 |
 
-## Advanced Patterns
+## 进阶用法
 
-See [reference.md](reference.md) for:
-- Attention manipulation techniques
-- Error recovery patterns
-- Context optimization from Manus
+更多内容见 [reference.md](reference.md)：
+- 注意力操控技巧
+- 错误恢复模式
+- 来自 Manus 的上下文优化策略
 
-See [examples.md](examples.md) for:
-- Real task examples
-- Complex workflow patterns
+示例见 [examples.md](examples.md)：
+- 真实任务示例
+- 复杂工作流模式
